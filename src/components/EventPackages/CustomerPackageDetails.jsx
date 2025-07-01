@@ -43,13 +43,6 @@ const CustomerPackageDetails = () => {
     return (
       <Box sx={{ p: 3 }}>
         <Typography variant="h5">Package not found</Typography>
-        <Button 
-          startIcon={<ArrowBackIcon />} 
-          onClick={() => navigate('/customer-dashboard')}
-          sx={{ mt: 2 }}
-        >
-          Back to Dashboard
-        </Button>
       </Box>
     );
   }
@@ -57,13 +50,9 @@ const CustomerPackageDetails = () => {
   return (
     <Box
       sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        bgcolor: 'rgba(0, 0, 0, 0.8)',
-        zIndex: 1300,
+        minHeight: '100vh',
+        height: 'auto',
+        bgcolor: '#333446',
         overflow: 'auto',
         display: 'flex',
         flexDirection: 'column'
@@ -73,22 +62,16 @@ const CustomerPackageDetails = () => {
         position: 'sticky', 
         top: 0, 
         zIndex: 1, 
-        bgcolor: 'rgba(0, 0, 0, 0.8)',
+        bgcolor: '#23243a',
         p: 2,
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        borderBottom: '1px solid #7F8CAA'
       }}>
-        <Button 
-          startIcon={<ArrowBackIcon />} 
-          onClick={() => navigate('/customer-dashboard')}
-          sx={{ color: 'white' }}
-        >
-          Back to Dashboard
-        </Button>
         <IconButton 
           onClick={() => navigate('/customer-dashboard')}
-          sx={{ color: 'white' }}
+          sx={{ color: '#B8CFCE', '&:hover': { color: '#EAEFEF', bgcolor: '#333446' } }}
         >
           <CloseIcon />
         </IconButton>
@@ -96,63 +79,71 @@ const CustomerPackageDetails = () => {
 
       <Box sx={{ 
         flex: 1,
-        p: 3,
+        p: { xs: 1, md: 3 },
         maxWidth: '1200px',
         width: '100%',
         mx: 'auto',
         my: 2
       }}>
         <Paper 
-          elevation={3} 
+          elevation={4} 
           sx={{ 
-            p: 3,
-            bgcolor: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)'
+            p: { xs: 2, md: 4 },
+            bgcolor: '#23243a',
+            color: '#EAEFEF',
+            borderRadius: 4,
+            boxShadow: '0 4px 24px 0 rgba(51,52,70,0.10)'
           }}
         >
           <Box sx={{ mb: 4 }}>
-            <Typography variant="h3" gutterBottom>
+            <Typography variant="h3" gutterBottom sx={{ fontFamily: 'Playfair Display, serif', fontWeight: 900, color: '#EAEFEF', letterSpacing: 1 }}>
               {event.name}
             </Typography>
-            <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+            <Typography variant="subtitle1" sx={{ color: '#B8CFCE', fontWeight: 500 }} gutterBottom>
               By {event.vendorName}
             </Typography>
             {event.category && (
               <Chip 
                 label={event.category}
                 sx={{ 
-                  backgroundColor: '#e3f2fd',
-                  color: '#1976d2',
+                  backgroundColor: '#7F8CAA',
+                  color: '#EAEFEF',
+                  fontWeight: 600,
+                  letterSpacing: 1,
                   '&:hover': {
-                    backgroundColor: '#bbdefb'
-                  }
+                    backgroundColor: '#B8CFCE',
+                    color: '#333446'
+                  },
+                  height: '28px',
+                  fontSize: '1rem',
+                  mt: 1
                 }}
               />
             )}
           </Box>
 
-          <Grid container spacing={3}>
+          <Grid container spacing={4}>
             <Grid item xs={12} md={6}>
-              <Card>
+              <Card sx={{ bgcolor: '#333446', borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}>
                 <CardMedia
                   component="img"
-                  height="400"
+                  height="340"
                   image={event.image}
                   alt={event.name}
-                  sx={{ objectFit: 'cover' }}
+                  sx={{ objectFit: 'cover', borderRadius: 3 }}
                 />
               </Card>
               {event.images && event.images.length > 1 && (
                 <Grid container spacing={2} sx={{ mt: 2 }}>
                   {event.images.slice(1).map((image, index) => (
                     <Grid item xs={4} key={index}>
-                      <Card>
+                      <Card sx={{ bgcolor: '#333446', borderRadius: 2 }}>
                         <CardMedia
                           component="img"
-                          height="120"
+                          height="90"
                           image={image}
                           alt={`${event.name} - Image ${index + 2}`}
-                          sx={{ objectFit: 'cover' }}
+                          sx={{ objectFit: 'cover', borderRadius: 2 }}
                         />
                       </Card>
                     </Grid>
@@ -163,39 +154,36 @@ const CustomerPackageDetails = () => {
 
             <Grid item xs={12} md={6}>
               <Box sx={{ mb: 3 }}>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h6" gutterBottom sx={{ color: '#B8CFCE', fontFamily: 'Playfair Display, serif', fontWeight: 700 }}>
                   Description
                 </Typography>
-                <Typography variant="body1" paragraph>
+                <Typography variant="body1" paragraph sx={{ color: '#EAEFEF', fontWeight: 400, lineHeight: 1.7 }}>
                   {event.description || event.details}
                 </Typography>
               </Box>
 
-              <Divider sx={{ my: 3 }} />
+              <Divider sx={{ my: 3, borderColor: '#7F8CAA' }} />
 
               <Box sx={{ mb: 3 }}>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h6" gutterBottom sx={{ color: '#B8CFCE', fontFamily: 'Playfair Display, serif', fontWeight: 700 }}>
                   Event Details
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    <Typography variant="subtitle2" color="text.secondary">
+                    <Typography variant="subtitle2" sx={{ color: '#B8CFCE', fontWeight: 600 }}>
                       Venue
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography variant="body1" sx={{ color: '#EAEFEF' }}>
                       {event.venue}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="subtitle2" color="text.secondary">
+                    <Typography variant="subtitle2" sx={{ color: '#B8CFCE', fontWeight: 600 }}>
                       Price
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography variant="body1" sx={{ color: '#EAEFEF' }}>
                       {event.price}
                     </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-
                   </Grid>
                 </Grid>
               </Box>

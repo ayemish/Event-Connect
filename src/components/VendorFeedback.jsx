@@ -33,23 +33,42 @@ const VendorFeedback = () => {
   }, [currentVendor]);
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#f9f9f9', p: 3 }}>
-      <Button variant="contained" sx={{ mb: 3 }} onClick={() => navigate('/dashboard')}>
-        Back to Dashboard
-      </Button>
-      <Typography variant="h4" align="center" gutterBottom sx={{ color: '#2c3e50', fontWeight: 700, mb: 4 }}>
-        Customer Feedback
-      </Typography>
-      <Paper elevation={3} sx={{ p: 3, mx: 'auto', maxWidth: '900px', width: '100%' }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: '#333446', p: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        <Typography
+          variant="h2"
+          align="center"
+          gutterBottom
+          sx={{
+            fontFamily: 'Playfair Display, serif',
+            fontWeight: 900,
+            letterSpacing: 2,
+            color: '#EAEFEF',
+            textShadow: '0 4px 24px #333446',
+            mb: 4,
+            fontSize: { xs: '2.2rem', md: '2.8rem' },
+            px: 2,
+            py: 1,
+            borderRadius: 2,
+            background: 'none',
+          }}
+        >
+          Customer Feedback
+        </Typography>
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+        `}</style>
+      </Box>
+      <Paper elevation={3} sx={{ p: 3, mx: 'auto', maxWidth: '900px', width: '100%', bgcolor: '#23243a', color: '#EAEFEF' }}>
         {loading ? (
           <Typography align="center" sx={{ mt: 2 }}>Loading feedback...</Typography>
         ) : feedbacks.length > 0 ? (
           <Grid container spacing={3}>
             {feedbacks.map((fb, idx) => (
               <Grid item xs={12} md={6} key={idx}>
-                <Card elevation={4} sx={{ borderRadius: 3, mb: 2 }}>
+                <Card elevation={4} sx={{ borderRadius: 3, mb: 2, bgcolor: '#333446', color: '#EAEFEF', boxShadow: '0 4px 16px 0 rgba(51,52,70,0.10)' }}>
                   <CardContent>
-                    <Typography variant="h6" sx={{ color: '#7b2ff2', fontWeight: 600 }}>
+                    <Typography variant="h6" sx={{ color: '#B8CFCE', fontWeight: 700, letterSpacing: 1 }}>
                       {fb.eventName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>

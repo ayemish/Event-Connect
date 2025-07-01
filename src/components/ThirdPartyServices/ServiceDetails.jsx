@@ -148,20 +148,50 @@ const ServiceDetails = () => {
           elevation={3} 
           sx={{ 
             p: 3,
-            bgcolor: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)'
+            bgcolor: '#23243a',
+            color: '#EAEFEF',
+            borderRadius: 3,
+            boxShadow: '0 4px 24px 0 rgba(51,52,70,0.10)'
           }}
         >
-          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="h3" gutterBottom>
-              {service.name}
-            </Typography>
+          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
             <Box>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontFamily: 'Playfair Display, serif',
+                  fontWeight: 900,
+                  letterSpacing: 2,
+                  color: '#EAEFEF',
+                  mb: 1,
+                  fontSize: { xs: '1.8rem', md: '2.5rem' },
+                }}
+              >
+                {service.name}
+              </Typography>
+              <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+              `}</style>
+            </Box>
+            <Box sx={{ mt: { xs: 2, md: 0 }, display: 'flex', gap: 2 }}>
               <Button 
                 variant="contained" 
                 startIcon={<EditIcon />}
                 onClick={handleEdit}
-                sx={{ mr: 2 }}
+                sx={{
+                  background: '#7F8CAA',
+                  color: '#EAEFEF',
+                  fontWeight: 700,
+                  borderRadius: 2,
+                  boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+                  letterSpacing: 1,
+                  px: 3,
+                  py: 1.2,
+                  '&:hover': {
+                    background: '#B8CFCE',
+                    color: '#333446',
+                  },
+                }}
               >
                 Edit Service
               </Button>
@@ -170,6 +200,20 @@ const ServiceDetails = () => {
                 color="error"
                 startIcon={<DeleteIcon />}
                 onClick={handleDelete}
+                sx={{
+                  background: '#a95c68',
+                  color: '#EAEFEF',
+                  fontWeight: 700,
+                  borderRadius: 2,
+                  boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+                  letterSpacing: 1,
+                  px: 3,
+                  py: 1.2,
+                  '&:hover': {
+                    background: '#c27d8a',
+                    color: '#333446',
+                  },
+                }}
               >
                 Delete Service
               </Button>
@@ -178,7 +222,7 @@ const ServiceDetails = () => {
 
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <Card>
+              <Card sx={{ bgcolor: '#333446', color: '#EAEFEF' }}>
                 <CardMedia
                   component="img"
                   height="400"
@@ -189,16 +233,16 @@ const ServiceDetails = () => {
               </Card>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom>Description</Typography>
+              <Typography variant="h6" gutterBottom sx={{ color: '#B8CFCE', fontWeight: 700 }}>Description</Typography>
               <Typography variant="body1" paragraph>
                 {service.description}
               </Typography>
               
               <Divider sx={{ my: 2 }} />
               
-              <Typography variant="h6" gutterBottom>Price</Typography>
+              <Typography variant="h6" gutterBottom sx={{ color: '#B8CFCE', fontWeight: 700 }}>Price</Typography>
               <Typography variant="body1" paragraph>
-                ${service.price}
+                Rs {service.price}
               </Typography>
 
 
@@ -215,12 +259,13 @@ const ServiceDetails = () => {
         fullWidth
         PaperProps={{
           sx: {
-            bgcolor: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)'
+            bgcolor: '#23243a',
+            color: '#EAEFEF',
+            borderRadius: 3
           }
         }}
       >
-        <DialogTitle>Edit Service</DialogTitle>
+        <DialogTitle sx={{ fontFamily: 'Playfair Display, serif', color: '#B8CFCE', fontWeight: 700, fontSize: '1.8rem' }}>Edit Service</DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 2 }}>
             <Grid container spacing={2}>
@@ -231,6 +276,7 @@ const ServiceDetails = () => {
                   name="name"
                   value={editedService?.name || ''}
                   onChange={handleChange}
+                  sx={{ input: { color: '#EAEFEF' }, label: { color: '#B8CFCE' } }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -242,24 +288,36 @@ const ServiceDetails = () => {
                   name="description"
                   value={editedService?.description || ''}
                   onChange={handleChange}
+                  sx={{ textarea: { color: '#EAEFEF' }, label: { color: '#B8CFCE' } }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  type="number"
                   label="Price"
                   name="price"
+                  type="number"
                   value={editedService?.price || ''}
                   onChange={handleChange}
+                  sx={{ input: { color: '#EAEFEF' }, label: { color: '#B8CFCE' } }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Image URL"
+                  name="image"
+                  value={editedService?.image || ''}
+                  onChange={handleChange}
+                  sx={{ input: { color: '#EAEFEF' }, label: { color: '#B8CFCE' } }}
                 />
               </Grid>
             </Grid>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel}>Cancel</Button>
-          <Button onClick={handleSave} variant="contained">Save Changes</Button>
+          <Button onClick={handleCancel} sx={{ color: '#B8CFCE' }}>Cancel</Button>
+          <Button onClick={handleSave} variant="contained" sx={{ background: '#7F8CAA', color: '#EAEFEF', '&:hover': { background: '#B8CFCE', color: '#333446' } }}>Save Changes</Button>
         </DialogActions>
       </Dialog>
 
@@ -268,16 +326,23 @@ const ServiceDetails = () => {
         onClose={handleCancelDelete}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        PaperProps={{
+          sx: {
+            bgcolor: '#23243a',
+            color: '#EAEFEF',
+            borderRadius: 3
+          }
+        }}
       >
-        <DialogTitle id="alert-dialog-title">{"Confirm Delete"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title" sx={{ fontFamily: 'Playfair Display, serif', color: '#B8CFCE', fontWeight: 700 }}>{"Confirm Delete"}</DialogTitle>
         <DialogContent>
-          <Typography id="alert-dialog-description">
+          <Typography id="alert-dialog-description" sx={{ color: '#EAEFEF' }}>
             Are you sure you want to delete this service? This action cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelDelete}>Cancel</Button>
-          <Button onClick={handleConfirmDelete} color="error" variant="contained" autoFocus>
+          <Button onClick={handleCancelDelete} sx={{ color: '#B8CFCE' }}>Cancel</Button>
+          <Button onClick={handleConfirmDelete} color="error" variant="contained" autoFocus sx={{ background: '#a95c68', '&:hover': { background: '#c27d8a' } }}>
             Delete
           </Button>
         </DialogActions>

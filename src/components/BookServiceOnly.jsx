@@ -3,6 +3,12 @@ import { Box, Typography, Paper, Button, TextField, Alert, Grid, Checkbox, FormC
 import { useNavigate } from 'react-router-dom';
 import { vendorManager } from '../utils/vendorUtils';
 import { useAuth } from '../context/AuthContext';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 const BookServiceOnly = () => {
   const navigate = useNavigate();
@@ -12,6 +18,9 @@ const BookServiceOnly = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [warning, setWarning] = useState('');
   const [success, setSuccess] = useState('');
+  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('cash');
+  const [pendingBooking, setPendingBooking] = useState(null);
 
   useEffect(() => {
     // Gather all available services from all vendors
@@ -61,8 +70,51 @@ const BookServiceOnly = () => {
         return;
       }
     }
-    vendorManager.addEventConfirmation(vendorId, eventId, customerId, customerName, selectedDate, '', [service.id]);
-    setSuccess('Service booked successfully!');
+    // Save booking info for dialog
+    setPendingBooking({ vendorId, eventId, customerId, customerName, selectedDate, serviceId: service.id });
+    setPaymentDialogOpen(true);
+  };
+
+  const handleConfirmPayment = () => {
+    if (!pendingBooking) return;
+    const { vendorId, eventId, customerId, customerName, selectedDate, serviceId } = pendingBooking;
+    vendorManager.addEventConfirmation(
+      vendorId,
+      eventId,
+      customerId,
+      customerName,
+      selectedDate,
+      '',
+      [serviceId],
+      {
+        paymentStatus: 'Clear',
+        paymentMethod: selectedPaymentMethod,
+        paymentTimestamp: new Date().toISOString()
+      }
+    );
+    setPaymentDialogOpen(false);
+    setSuccess('Service booked and payment recorded!');
+    setTimeout(() => navigate('/my-events'), 1200);
+  };
+
+  const handleSkipPayment = () => {
+    if (!pendingBooking) return;
+    const { vendorId, eventId, customerId, customerName, selectedDate, serviceId } = pendingBooking;
+    vendorManager.addEventConfirmation(
+      vendorId,
+      eventId,
+      customerId,
+      customerName,
+      selectedDate,
+      '',
+      [serviceId],
+      {
+        paymentStatus: 'Pending',
+        paymentMethod: selectedPaymentMethod
+      }
+    );
+    setPaymentDialogOpen(false);
+    setSuccess('Service booked! You can pay later from My Services.');
     setTimeout(() => navigate('/my-events'), 1200);
   };
 
@@ -113,6 +165,22 @@ const BookServiceOnly = () => {
           </Button>
         </form>
       </Paper>
+      <Dialog open={paymentDialogOpen} onClose={() => setPaymentDialogOpen(false)}>
+        <DialogTitle>Select Payment Method</DialogTitle>
+        <DialogContent>
+          <RadioGroup
+            value={selectedPaymentMethod}
+            onChange={e => setSelectedPaymentMethod(e.target.value)}
+          >
+            <FormControlLabel value="cash" control={<Radio />} label="Cash" />
+            <FormControlLabel value="online" control={<Radio />} label="Online" />
+          </RadioGroup>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleSkipPayment}>Skip Payment</Button>
+          <Button onClick={handleConfirmPayment} variant="contained">Confirm Payment</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

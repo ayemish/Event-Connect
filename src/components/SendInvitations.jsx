@@ -60,9 +60,10 @@ const SendInvitations = () => {
     <Box
       sx={{
         minHeight: '100vh',
+        height: 'auto',
         display: 'flex',
         flexDirection: 'column',
-        bgcolor: '#fff',
+        bgcolor: '#333446',
         p: 3,
         alignItems: 'center',
       }}
@@ -73,18 +74,46 @@ const SendInvitations = () => {
         variant="contained"
         sx={{
           mb: 3,
-          bgcolor: '#2c3e50',
+          bgcolor: '#7F8CAA',
+          color: '#EAEFEF',
+          fontWeight: 700,
+          borderRadius: 2,
+          boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
           '&:hover': {
-            bgcolor: '#34495e'
-          }
+            bgcolor: '#B8CFCE',
+            color: '#333446',
+          },
+          letterSpacing: 1
         }}
       >
         Back to Dashboard
       </Button>
-      <Typography variant="h4" component="h1" gutterBottom align="center">
-        Send Invitations
-      </Typography>
-      <Paper elevation={3} sx={{ p: 3, mx: 'auto', maxWidth: '800px', width: '100%' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        <Typography
+          variant="h2"
+          align="center"
+          gutterBottom
+          sx={{
+            fontFamily: 'Playfair Display, serif',
+            fontWeight: 900,
+            letterSpacing: 2,
+            color: '#EAEFEF',
+            textShadow: '0 4px 24px #333446',
+            mb: 4,
+            fontSize: { xs: '2.2rem', md: '2.8rem' },
+            px: 2,
+            py: 1,
+            borderRadius: 2,
+            background: 'none',
+          }}
+        >
+          Send Invitations
+        </Typography>
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+        `}</style>
+      </Box>
+      <Paper elevation={3} sx={{ p: 3, mx: 'auto', maxWidth: '800px', width: '100%', bgcolor: '#23243a', color: '#EAEFEF' }}>
         {loading ? (
           <Typography variant="body1" align="center" sx={{ mt: 2 }}>
             Loading invitations...
@@ -96,31 +125,32 @@ const SendInvitations = () => {
         ) : invitations.length > 0 ? (
           <List>
             {invitations.map((inv, idx) => (
-              <Card key={inv.eventId + inv.customerId + inv.date} elevation={4} sx={{ borderRadius: 3, p: 2, bgcolor: '#fff' }}>
+              <Card key={inv.eventId + inv.customerId + inv.date} elevation={4} sx={{ borderRadius: 3, p: 2, bgcolor: '#333446', color: '#EAEFEF', boxShadow: '0 4px 16px 0 rgba(51,52,70,0.10)' }}>
                 <ListItem alignItems="flex-start">
                   <ListItemText
                     primary={<>
-                      <Typography variant="h6">Event: {inv.eventName}</Typography>
-                      <Typography variant="body2" color="text.secondary">Customer: {inv.customerName}</Typography>
-                      <Typography variant="body2" color="text.secondary">Invitation List:</Typography>
+                      <Typography variant="h6" sx={{ color: '#B8CFCE', fontWeight: 700, letterSpacing: 1 }}>Event: {inv.eventName}</Typography>
+                      <Typography variant="body2" sx={{ color: '#EAEFEF' }}>Customer: {inv.customerName}</Typography>
+                      <Typography variant="body2" sx={{ color: '#EAEFEF' }}>Invitation List:</Typography>
                       {inv.invitees.split(',').map((email, i) => (
-                        <Chip key={i} label={email.trim()} sx={{ m: 0.5 }} />
+                        <Chip key={i} label={email.trim()} sx={{ m: 0.5, bgcolor: '#23243a', color: '#B8CFCE' }} />
                       ))}
                     </>}
                     secondary={
                       <>
                         <Typography
-                          sx={{ display: 'inline' }}
+                          sx={{ display: 'inline', color: '#EAEFEF' }}
                           component="span"
                           variant="body2"
-                          color="text.primary"
                         >
                           Customer: {inv.customerName}
                         </Typography>
-                        {` — ${inv.eventDescription}`}
+                        <Typography component="span" variant="body2" sx={{ color: '#B8CFCE', display: 'inline' }}>
+                          {` — ${inv.eventDescription}`}
+                        </Typography>
                         <br/>
                         <Box>
-                          <FormControl size="small" sx={{ mt: 1, minWidth: 120 }}>
+                          <FormControl size="small" sx={{ mt: 1, minWidth: 120, '& .MuiInputBase-root': { color: '#333446', bgcolor: '#EAEFEF' }, '& .MuiInputLabel-root': { color: '#7F8CAA' } }}>
                             <InputLabel>Status</InputLabel>
                             <Select
                               value={typeof inv.status === 'string' ? inv.status : 'Booked'}
@@ -140,21 +170,22 @@ const SendInvitations = () => {
                                 ));
                               }}
                               onClick={e => e.stopPropagation()}
+                              sx={{ bgcolor: '#EAEFEF', color: '#333446', borderRadius: 1 }}
                             >
-                              <MenuItem value="Pending">Pending</MenuItem>
-                              <MenuItem value="Booked">Booked</MenuItem>
-                              <MenuItem value="Ongoing">Ongoing</MenuItem>
-                              <MenuItem value="Completed">Completed</MenuItem>
+                              <MenuItem value="Pending" sx={{ color: '#333446' }}>Pending</MenuItem>
+                              <MenuItem value="Booked" sx={{ color: '#333446' }}>Booked</MenuItem>
+                              <MenuItem value="Ongoing" sx={{ color: '#333446' }}>Ongoing</MenuItem>
+                              <MenuItem value="Completed" sx={{ color: '#333446' }}>Completed</MenuItem>
                             </Select>
                           </FormControl>
                         </Box>
                         <br/>
                         <Box>
-                          <Typography variant="caption" color="text.secondary">
+                          <Typography variant="caption" sx={{ color: '#B8CFCE' }}>
                             Confirmed on: {new Date(inv.timestamp).toLocaleString()}
                           </Typography>
                           {inv.date && (
-                            <Typography variant="caption" color="text.secondary" sx={{ ml: 2 }}>
+                            <Typography variant="caption" sx={{ ml: 2, color: '#B8CFCE' }}>
                               Event Date: {inv.date}
                             </Typography>
                           )}
@@ -164,14 +195,25 @@ const SendInvitations = () => {
                   />
                   <Button
                     variant="contained"
-                    color={sentInvites[inv.eventId + inv.customerId + inv.date] ? 'success' : 'primary'}
+                    sx={{
+                      ml: 2,
+                      bgcolor: '#7F8CAA',
+                      color: '#EAEFEF',
+                      fontWeight: 700,
+                      borderRadius: 2,
+                      boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+                      '&:hover': {
+                        bgcolor: '#B8CFCE',
+                        color: '#333446',
+                      },
+                      letterSpacing: 1
+                    }}
                     onClick={() => handleSendInvitations(inv)}
-                    sx={{ ml: 2 }}
                   >
-                    Send Invitations
+                    Send 
                   </Button>
                 </ListItem>
-                {idx < invitations.length - 1 && <Divider component="li" />}
+                {idx < invitations.length - 1 && <Divider component="li" sx={{ bgcolor: '#7F8CAA', opacity: 0.4 }} />}
               </Card>
             ))}
           </List>

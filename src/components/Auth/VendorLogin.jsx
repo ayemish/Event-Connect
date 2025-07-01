@@ -74,7 +74,7 @@ const VendorLogin = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+        bgcolor: '#333446',
         py: 4
       }}
     >
@@ -85,27 +85,35 @@ const VendorLogin = () => {
           variant="contained"
           sx={{
             mb: 3,
-            bgcolor: '#2c3e50',
+            bgcolor: '#7F8CAA',
+            color: '#EAEFEF',
+            fontWeight: 700,
+            borderRadius: 2,
+            boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+            letterSpacing: 1,
             '&:hover': {
-              bgcolor: '#34495e'
+              bgcolor: '#B8CFCE',
+              color: '#333446',
             }
           }}
         >
           Back to Landing Page
         </Button>
         <Paper
-          elevation={3}
+          elevation={6}
           sx={{
             p: 4,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            borderRadius: 2
+            bgcolor: 'rgba(35,36,58,0.98)',
+            color: '#EAEFEF',
+            borderRadius: 3,
+            boxShadow: '0 8px 32px rgba(51,52,70,0.25)',
+            backdropFilter: 'blur(8px)'
           }}
         >
-          <Typography variant="h4" component="h1" gutterBottom>
+          <Typography variant="h4" component="h1" gutterBottom sx={{ fontFamily: 'Playfair Display, serif', fontWeight: 900, color: '#EAEFEF', letterSpacing: 1 }}>
             Vendor Login
           </Typography>
           
@@ -127,7 +135,18 @@ const VendorLogin = () => {
               autoFocus
               value={formData.email}
               onChange={handleChange}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2,
+                '& .MuiOutlinedInput-root': {
+                  bgcolor: '#23243a',
+                  color: '#EAEFEF',
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: '#7F8CAA' },
+                  '&:hover fieldset': { borderColor: '#B8CFCE' },
+                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
+                  '& input': { color: '#EAEFEF' }
+                },
+                '& .MuiInputLabel-root': { color: '#B8CFCE' }
+              }}
             />
             <TextField
               margin="normal"
@@ -140,7 +159,18 @@ const VendorLogin = () => {
               autoComplete="current-password"
               value={formData.password}
               onChange={handleChange}
-              sx={{ mb: 3 }}
+              sx={{ mb: 3,
+                '& .MuiOutlinedInput-root': {
+                  bgcolor: '#23243a',
+                  color: '#EAEFEF',
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: '#7F8CAA' },
+                  '&:hover fieldset': { borderColor: '#B8CFCE' },
+                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
+                  '& input': { color: '#EAEFEF' }
+                },
+                '& .MuiInputLabel-root': { color: '#B8CFCE' }
+              }}
             />
             <Button
               type="submit"
@@ -149,17 +179,25 @@ const VendorLogin = () => {
               sx={{
                 py: 1.5,
                 fontSize: '1.1rem',
-                background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.dark} 90%)`,
-                boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0.2)'
+                bgcolor: '#B8CFCE',
+                color: '#333446',
+                fontWeight: 700,
+                borderRadius: 2,
+                boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+                letterSpacing: 1,
+                '&:hover': {
+                  bgcolor: '#EAEFEF',
+                  color: '#23243a'
+                }
               }}
             >
               Sign In
             </Button>
             <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="body2" sx={{ mb: 1 }}>
+              <Typography variant="body2" sx={{ mb: 1, color: '#B8CFCE' }}>
                 Don't have an account?
               </Typography>
-              <MuiLink component={Link} to="/vendor-signup" variant="body2">
+              <MuiLink component={Link} to="/vendor-signup" variant="body2" sx={{ color: '#B8CFCE', fontWeight: 600, '&:hover': { color: '#EAEFEF' } }}>
                 Sign up as a vendor
               </MuiLink>
             </Box>

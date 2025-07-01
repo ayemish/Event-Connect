@@ -87,7 +87,7 @@ const VendorSignup = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #1976d2 0%, #64b5f6 100%)',
+        bgcolor: '#333446',
         py: 4
       }}
     >
@@ -98,24 +98,32 @@ const VendorSignup = () => {
           variant="contained"
           sx={{
             mb: 3,
-            bgcolor: '#2c3e50',
+            bgcolor: '#7F8CAA',
+            color: '#EAEFEF',
+            fontWeight: 700,
+            borderRadius: 2,
+            boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+            letterSpacing: 1,
             '&:hover': {
-              bgcolor: '#34495e'
+              bgcolor: '#B8CFCE',
+              color: '#333446',
             }
           }}
         >
           Back to Landing Page
         </Button>
         <Paper
-          elevation={3}
+          elevation={6}
           sx={{
             p: 4,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            borderRadius: 2
+            bgcolor: 'rgba(35,36,58,0.98)',
+            color: '#EAEFEF',
+            borderRadius: 3,
+            boxShadow: '0 8px 32px rgba(51,52,70,0.25)',
+            backdropFilter: 'blur(8px)'
           }}
         >
           <Typography
@@ -123,8 +131,10 @@ const VendorSignup = () => {
             variant="h4"
             sx={{
               mb: 3,
-              color: '#1976d2',
-              fontWeight: 'bold'
+              fontFamily: 'Playfair Display, serif',
+              fontWeight: 900,
+              color: '#EAEFEF',
+              letterSpacing: 1
             }}
           >
             Vendor Sign Up
@@ -148,7 +158,18 @@ const VendorSignup = () => {
               autoFocus
               value={formData.fullName}
               onChange={handleChange}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2,
+                '& .MuiOutlinedInput-root': {
+                  bgcolor: '#23243a',
+                  color: '#EAEFEF',
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: '#7F8CAA' },
+                  '&:hover fieldset': { borderColor: '#B8CFCE' },
+                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
+                  '& input': { color: '#EAEFEF' }
+                },
+                '& .MuiInputLabel-root': { color: '#B8CFCE' }
+              }}
             />
             <TextField
               margin="normal"
@@ -159,7 +180,18 @@ const VendorSignup = () => {
               name="businessName"
               value={formData.businessName}
               onChange={handleChange}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2,
+                '& .MuiOutlinedInput-root': {
+                  bgcolor: '#23243a',
+                  color: '#EAEFEF',
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: '#7F8CAA' },
+                  '&:hover fieldset': { borderColor: '#B8CFCE' },
+                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
+                  '& input': { color: '#EAEFEF' }
+                },
+                '& .MuiInputLabel-root': { color: '#B8CFCE' }
+              }}
             />
             <TextField
               margin="normal"
@@ -171,7 +203,18 @@ const VendorSignup = () => {
               autoComplete="email"
               value={formData.email}
               onChange={handleChange}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2,
+                '& .MuiOutlinedInput-root': {
+                  bgcolor: '#23243a',
+                  color: '#EAEFEF',
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: '#7F8CAA' },
+                  '&:hover fieldset': { borderColor: '#B8CFCE' },
+                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
+                  '& input': { color: '#EAEFEF' }
+                },
+                '& .MuiInputLabel-root': { color: '#B8CFCE' }
+              }}
             />
             <TextField
               margin="normal"
@@ -183,7 +226,18 @@ const VendorSignup = () => {
               autoComplete="tel"
               value={formData.phone}
               onChange={handleChange}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2,
+                '& .MuiOutlinedInput-root': {
+                  bgcolor: '#23243a',
+                  color: '#EAEFEF',
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: '#7F8CAA' },
+                  '&:hover fieldset': { borderColor: '#B8CFCE' },
+                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
+                  '& input': { color: '#EAEFEF' }
+                },
+                '& .MuiInputLabel-root': { color: '#B8CFCE' }
+              }}
             />
             <TextField
               margin="normal"
@@ -195,7 +249,18 @@ const VendorSignup = () => {
               id="password"
               value={formData.password}
               onChange={handleChange}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2,
+                '& .MuiOutlinedInput-root': {
+                  bgcolor: '#23243a',
+                  color: '#EAEFEF',
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: '#7F8CAA' },
+                  '&:hover fieldset': { borderColor: '#B8CFCE' },
+                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
+                  '& input': { color: '#EAEFEF' }
+                },
+                '& .MuiInputLabel-root': { color: '#B8CFCE' }
+              }}
             />
             <TextField
               margin="normal"
@@ -207,7 +272,18 @@ const VendorSignup = () => {
               id="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              sx={{ mb: 3 }}
+              sx={{ mb: 3,
+                '& .MuiOutlinedInput-root': {
+                  bgcolor: '#23243a',
+                  color: '#EAEFEF',
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: '#7F8CAA' },
+                  '&:hover fieldset': { borderColor: '#B8CFCE' },
+                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
+                  '& input': { color: '#EAEFEF' }
+                },
+                '& .MuiInputLabel-root': { color: '#B8CFCE' }
+              }}
             />
             <Button
               type="submit"
@@ -216,24 +292,32 @@ const VendorSignup = () => {
               sx={{
                 py: 1.5,
                 fontSize: '1.1rem',
-                background: 'linear-gradient(45deg, #1976d2 30%, #64b5f6 90%)',
+                bgcolor: '#B8CFCE',
+                color: '#333446',
+                fontWeight: 700,
+                borderRadius: 2,
+                boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+                letterSpacing: 1,
                 '&:hover': {
-                  background: 'linear-gradient(45deg, #1565c0 30%, #42a5f5 90%)',
+                  bgcolor: '#EAEFEF',
+                  color: '#23243a'
                 }
               }}
             >
               Sign Up
             </Button>
             <Box sx={{ mt: 2, textAlign: 'center' }}>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" sx={{ color: '#B8CFCE', fontWeight: 500 }}>
                 Already have an account?{' '}
                 <Link
                   to="/vendor-login"
                   style={{
-                    color: '#1976d2',
+                    color: '#B8CFCE',
                     textDecoration: 'none',
                     fontWeight: 'bold'
                   }}
+                  onMouseOver={e => (e.target.style.color = '#EAEFEF')}
+                  onMouseOut={e => (e.target.style.color = '#B8CFCE')}
                 >
                   Sign in
                 </Link>

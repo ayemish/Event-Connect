@@ -65,13 +65,37 @@ const EventConfirmationDetails = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#f9f9f9', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Paper elevation={4} sx={{ p: 4, maxWidth: 600, width: '100%', mt: 4 }}>
-        <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
-          {confirmation.customerName} &mdash; {event.name}
-        </Typography>
+    <Box sx={{ minHeight: '100vh', bgcolor: '#333446', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Paper elevation={4} sx={{ p: 4, maxWidth: 1200, width: '100%', mt: 4, bgcolor: '#23243a', color: '#EAEFEF' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <Typography
+            variant="h2"
+            sx={{
+              fontFamily: 'Playfair Display, serif',
+              fontWeight: 900,
+              letterSpacing: 2,
+              color: '#EAEFEF',
+              textShadow: '0 4px 24px #333446',
+              mb: 3,
+              fontSize: { xs: '1.5rem', md: '2.2rem' },
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              width: '100%',
+              maxWidth: '100%'
+            }}
+          >
+            {confirmation.customerName} &mdash; {event.name}
+          </Typography>
+          <style>{`
+            @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+          `}</style>
+        </Box>
         <Divider sx={{ mb: 2 }} />
         <Stack spacing={2}>
+          {confirmation.isCustomized && (
+            <Chip label="Customized Event" color="info" sx={{ fontWeight: 700, fontSize: '1rem', bgcolor: '#7F8CAA', color: '#EAEFEF', width: 'fit-content' }} />
+          )}
           <Typography variant="body1">
             <b>Event Description:</b> {event.description}
           </Typography>
@@ -84,11 +108,50 @@ const EventConfirmationDetails = () => {
           <Typography variant="body1">
             <b>Invitees:</b> {confirmation.invitees || 'N/A'}
           </Typography>
+          {confirmation.isCustomized && confirmation.customizationDetails && confirmation.customizationDetails.length > 0 && (
+            <Box sx={{ mt: 2, mb: 1 }}>
+              <Typography variant="body1" sx={{ color: '#B8CFCE', fontWeight: 700 }}>
+                Customizations:
+              </Typography>
+              <List dense>
+                {confirmation.customizationDetails.map((s, idx) => (
+                  <ListItem key={s.id || idx} sx={{ pl: 0 }}>
+                    <ListItemText
+                      primary={<span style={{ color: '#EAEFEF' }}>{s.name}</span>}
+                      secondary={<span style={{ color: '#B8CFCE' }}>+ {s.price}</span>}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+              <Typography variant="body2" sx={{ color: '#B8CFCE', mt: 1 }}>
+                Additional Cost: <b style={{ color: '#EAEFEF' }}>{confirmation.additionalCost}</b>
+              </Typography>
+              <Typography variant="body2" sx={{ color: '#B8CFCE' }}>
+                Total Cost: <b style={{ color: '#EAEFEF' }}>{confirmation.totalCost}</b>
+              </Typography>
+            </Box>
+          )}
           <Typography variant="body2" color="text.secondary">
             Confirmed on: {new Date(confirmation.timestamp).toLocaleString()}
           </Typography>
         </Stack>
-        <Button variant="contained" sx={{ mt: 3 }} onClick={() => navigate('/notifications')}>
+        <Button
+          variant="contained"
+          sx={{
+            mt: 3,
+            bgcolor: '#7F8CAA',
+            color: '#EAEFEF',
+            fontWeight: 700,
+            borderRadius: 2,
+            boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+            '&:hover': {
+              bgcolor: '#B8CFCE',
+              color: '#333446',
+            },
+            letterSpacing: 1
+          }}
+          onClick={() => navigate('/notifications')}
+        >
           Back to Notifications
         </Button>
         <Divider sx={{ my: 3 }} />
@@ -104,7 +167,24 @@ const EventConfirmationDetails = () => {
             size="small"
             sx={{ flex: 1 }}
           />
-          <Button variant="contained" onClick={handleAddTask}>Add</Button>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: '#7F8CAA',
+              color: '#EAEFEF',
+              fontWeight: 700,
+              borderRadius: 2,
+              boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+              '&:hover': {
+                bgcolor: '#B8CFCE',
+                color: '#333446',
+              },
+              letterSpacing: 1
+            }}
+            onClick={handleAddTask}
+          >
+            Add
+          </Button>
         </Stack>
         <List>
           {tasks.map(task => (

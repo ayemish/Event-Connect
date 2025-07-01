@@ -3,6 +3,7 @@ import { Box, Typography, Paper, List, ListItem, ListItemText, Divider, Button, 
 import { useAuth } from '../context/AuthContext';
 import { vendorManager } from '../utils/vendorUtils';
 import { useNavigate } from 'react-router-dom';
+import CustomerHeader from './CustomerHeader';
 
 const CustomerNotifications = () => {
   const { currentCustomer } = useAuth();
@@ -107,89 +108,199 @@ const CustomerNotifications = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#f9f9f9', p: 3 }}>
-      <Button variant="contained" sx={{ mb: 3 }} onClick={() => navigate('/customer-dashboard')}>
-        Back to Dashboard
-      </Button>
-      <Typography variant="h4" align="center" gutterBottom sx={{ color: '#2c3e50', fontWeight: 700, mb: 4 }}>
-        Notifications
-      </Typography>
-      <Paper elevation={3} sx={{ p: 3, mx: 'auto', maxWidth: '800px', width: '100%' }}>
-        {!currentCustomer ? (
-          <Typography align="center" color="error">No customer is logged in. Please log in to view notifications.</Typography>
-        ) : loading ? (
-          <Typography align="center" sx={{ mt: 2 }}>Loading notifications...</Typography>
-        ) : completedEvents.length > 0 ? (
-          <List>
-            {completedEvents.map((event, idx) => (
-              <React.Fragment key={event.id}>
-                <ListItem alignItems="flex-start" secondaryAction={
-                  <Button variant="outlined" onClick={() => handleOpenFeedback(event)}>
-                    Submit Feedback
-                  </Button>
-                }>
-                  <ListItemText
-                    primary={
-                      <>
-                        <Typography variant="h6">{event.name}</Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Vendor: {event.vendorName}
-                        </Typography>
-                      </>
-                    }
-                    secondary={
-                      <>
-                        <Typography variant="body2">{event.description}</Typography>
-                        {event.date && (
-                          <Typography variant="caption" color="text.secondary">
-                            Event Date: {event.date}
+    <>
+      <CustomerHeader />
+      <Box sx={{ minHeight: '100vh', bgcolor: '#333446', p: 3, fontFamily: 'Inter, sans-serif' }}>
+        <Typography 
+          variant="h4" 
+          align="center" 
+          gutterBottom
+          sx={{
+            color: '#EAEFEF',
+            fontWeight: 700,
+            mb: 4,
+            fontFamily: 'Playfair Display, serif',
+            fontSize: '2.5rem',
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+          }}
+        >
+          Notifications
+        </Typography>
+        <Paper 
+          elevation={8} 
+          sx={{ 
+            p: 4, 
+            mx: 'auto', 
+            maxWidth: '900px', 
+            width: '100%',
+            bgcolor: '#23243a',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
+          }}
+        >
+          {!currentCustomer ? (
+            <Typography align="center" color="error">No customer is logged in. Please log in to view notifications.</Typography>
+          ) : loading ? (
+            <Typography align="center" sx={{ mt: 2, color: '#B8CFCE' }}>Loading notifications...</Typography>
+          ) : completedEvents.length > 0 ? (
+            <List sx={{ p: 0 }}>
+              {completedEvents.map((event, idx) => (
+                <React.Fragment key={event.id}>
+                  <ListItem 
+                    alignItems="flex-start"
+                    sx={{
+                      bgcolor: '#333446',
+                      borderRadius: 2,
+                      mb: 2,
+                      p: 3,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 6px 20px rgba(0,0,0,0.3)'
+                      }
+                    }}
+                  >
+                    <ListItemText
+                      primary={
+                        <Box>
+                          <Typography 
+                            variant="h6" 
+                            sx={{ 
+                              color: '#EAEFEF', 
+                              fontWeight: 600,
+                              mb: 1,
+                              fontFamily: 'Playfair Display, serif'
+                            }}
+                          >
+                            {event.name}
                           </Typography>
-                        )}
-                        <Typography variant="caption" color="text.secondary">
-                          Confirmed on: {new Date(event.confirmedAt).toLocaleString()}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItem>
-                {idx < completedEvents.length - 1 && <Divider component="li" />}
-              </React.Fragment>
-            ))}
-          </List>
-        ) : (
-          <Typography align="center" sx={{ mt: 2 }}>
-            No completed events pending feedback.
-          </Typography>
-        )}
-      </Paper>
-      <Dialog open={feedbackDialogOpen} onClose={handleCloseFeedback}>
-        <DialogTitle>Submit Feedback</DialogTitle>
-        <DialogContent>
-          {successMsg && <Alert severity="success" sx={{ mb: 2 }}>{successMsg}</Alert>}
-          {errorMsg && <Alert severity="error" sx={{ mb: 2 }}>{errorMsg}</Alert>}
-          <Typography gutterBottom>How would you rate your experience?</Typography>
-          <Rating
-            name="event-rating"
-            value={rating}
-            onChange={(_, newValue) => setRating(newValue)}
-            size="large"
-          />
-          <TextField
-            label="Your Feedback"
-            multiline
-            minRows={3}
-            fullWidth
-            value={feedback}
-            onChange={e => setFeedback(e.target.value)}
-            sx={{ mt: 2 }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseFeedback}>Cancel</Button>
-          <Button variant="contained" onClick={handleSubmitFeedback} disabled={!!successMsg}>Submit</Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+                          <Typography 
+                            variant="body2" 
+                            sx={{ 
+                              color: '#B8CFCE', 
+                              mb: 1,
+                              fontWeight: 500
+                            }}
+                          >
+                            Vendor: {event.vendorName}
+                          </Typography>
+                        </Box>
+                      }
+                      secondary={
+                        <Box sx={{ mt: 2 }}>
+                          <Typography 
+                            variant="body2" 
+                            sx={{ 
+                              color: '#B8CFCE', 
+                              mb: 1,
+                              lineHeight: 1.6
+                            }}
+                          >
+                            {event.description}
+                          </Typography>
+                          {event.date && (
+                            <Typography 
+                              variant="caption" 
+                              sx={{ 
+                                color: '#EAEFEF', 
+                                display: 'block',
+                                mb: 0.5,
+                                fontWeight: 500
+                              }}
+                            >
+                              Event Date: {event.date}
+                            </Typography>
+                          )}
+                          <Typography 
+                            variant="caption" 
+                            sx={{ 
+                              color: '#B8CFCE', 
+                              display: 'block',
+                              fontWeight: 400
+                            }}
+                          >
+                            Confirmed on: {new Date(event.confirmedAt).toLocaleString()}
+                          </Typography>
+                          <Button 
+                            variant="outlined" 
+                            sx={{
+                              borderColor: '#B8CFCE',
+                              color: '#B8CFCE',
+                              fontWeight: 600,
+                              px: 2,
+                              py: 1,
+                              borderRadius: 2,
+                              mt: 2,
+                              '&:hover': {
+                                borderColor: '#EAEFEF',
+                                bgcolor: '#7F8CAA',
+                                color: '#EAEFEF'
+                              }
+                            }}
+                            onClick={() => handleOpenFeedback(event)}
+                          >
+                            Submit Feedback
+                          </Button>
+                        </Box>
+                      }
+                    />
+                  </ListItem>
+                </React.Fragment>
+              ))}
+            </List>
+          ) : (
+            <Box sx={{ textAlign: 'center', py: 4 }}>
+              <Typography 
+                variant="h6" 
+                sx={{ 
+                  color: '#EAEFEF',
+                  fontFamily: 'Playfair Display, serif',
+                  mb: 2
+                }}
+              >
+                No completed events pending feedback.
+              </Typography>
+            </Box>
+          )}
+        </Paper>
+        <Dialog 
+          open={feedbackDialogOpen} 
+          onClose={handleCloseFeedback}
+          PaperProps={{
+            sx: {
+              bgcolor: '#23243a',
+              borderRadius: 2
+            }
+          }}
+        >
+          <DialogTitle sx={{ color: '#EAEFEF', fontFamily: 'Playfair Display, serif' }}>Submit Feedback</DialogTitle>
+          <DialogContent>
+            {successMsg && <Alert severity="success" sx={{ mb: 2 }}>{successMsg}</Alert>}
+            {errorMsg && <Alert severity="error" sx={{ mb: 2 }}>{errorMsg}</Alert>}
+            <Typography gutterBottom sx={{ color: '#B8CFCE' }}>How would you rate your experience?</Typography>
+            <Rating
+              name="event-rating"
+              value={rating}
+              onChange={(_, newValue) => setRating(newValue)}
+              size="large"
+            />
+            <TextField
+              label="Your Feedback"
+              multiline
+              minRows={3}
+              fullWidth
+              value={feedback}
+              onChange={e => setFeedback(e.target.value)}
+              sx={{ mt: 2, bgcolor: '#333446', color: '#EAEFEF', borderRadius: 2, '& .MuiInputBase-input': { color: '#EAEFEF' }, '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#B8CFCE' }, '&:hover fieldset': { borderColor: '#EAEFEF' }, '&.Mui-focused fieldset': { borderColor: '#B8CFCE' } } }}
+              InputLabelProps={{ sx: { color: '#B8CFCE' } }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseFeedback} sx={{ color: '#B8CFCE', '&:hover': { bgcolor: '#333446', color: '#EAEFEF' } }}>Cancel</Button>
+            <Button variant="contained" onClick={handleSubmitFeedback} disabled={!!successMsg} sx={{ bgcolor: '#B8CFCE', color: '#333446', fontWeight: 600, '&:hover': { bgcolor: '#EAEFEF' } }}>Submit</Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
+    </>
   );
 };
 

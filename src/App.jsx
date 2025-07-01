@@ -23,7 +23,10 @@ import SendInvitations from './components/SendInvitations';
 import SendInvitationCard from './components/SendInvitationCard';
 import CustomerNotifications from './components/CustomerNotifications';
 import VendorFeedback from './components/VendorFeedback';
+import Payments from './components/Payments';
 import './styles/main.css';
+import Header from './components/Layout/Header';
+import { useLocation } from 'react-router-dom';
 
 // Protected Route component for vendors
 const ProtectedRoute = ({ children }) => {
@@ -137,7 +140,48 @@ function AppRoutes() {
             </ProtectedRoute>
           } />
           <Route path="/vendor-feedback" element={<VendorFeedback />} />
+          <Route path="/payments" element={
+            <ProtectedRoute>
+              <Payments />
+            </ProtectedRoute>
+          } />
         </Routes>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+  // Show header only on vendor-side pages
+  const vendorPaths = [
+    '/dashboard',
+    '/notifications',
+    '/service-bookings',
+    '/send-invitations',
+    '/vendor-feedback',
+  ];
+  // Also match dynamic vendor pages
+  const isVendorPage = vendorPaths.some(path => location.pathname.startsWith(path)) ||
+    location.pathname.startsWith('/event-confirmation') ||
+    location.pathname.startsWith('/package') ||
+    location.pathname.startsWith('/service/');
+  
+  // Show customer header on customer-side pages
+  const customerPaths = [
+    '/customer-dashboard',
+    '/customer-package',
+    '/my-events',
+    '/my-booked-services',
+    '/confirm-event',
+    '/book-service',
+    '/customer-notifications',
+  ];
+  const isCustomerPage = customerPaths.some(path => location.pathname.startsWith(path));
+  
+  return (
+    <div className="app">
+      {isVendorPage && <Header />}
+      <AppRoutes />
+    </div>
   );
 }
 
@@ -145,9 +189,7 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="app">
-          <AppRoutes />
-      </div>
+        <AppContent />
       </AuthProvider>
     </Router>
   );

@@ -17,12 +17,13 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { addVendorService } from '../../utils/vendorUtils';
 
 const CreateService = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { eventId } = useParams(); // Get eventId if creating an event-specific service
+  const { eventId } = useParams();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -73,64 +74,86 @@ const CreateService = () => {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+      bgcolor: '#23243a',
       py: 4,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
+      position: 'relative'
     }}>
-      <Container maxWidth={false} disableGutters sx={{ width: '100%' }}>
+      <Button
+        startIcon={<ArrowBackIcon />}
+        onClick={() => navigate('/dashboard')}
+        variant="contained"
+        sx={{ 
+          position: 'absolute',
+          top: { xs: '1rem', md: '2rem' },
+          left: { xs: '1rem', md: '2rem' },
+          bgcolor: '#7F8CAA',
+          color: '#EAEFEF',
+          fontWeight: 700,
+          borderRadius: 2,
+          boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+          letterSpacing: 1,
+          px: 3,
+          py: 1.2,
+          '&:hover': {
+            bgcolor: '#B8CFCE',
+            color: '#333446',
+          },
+        }}
+      >
+        Back to Dashboard
+      </Button>
+      <Container maxWidth="md" sx={{ px: 2 }}>
         <Box sx={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          mb: 4,
-          gap: 2,
-          justifyContent: 'center'
+          textAlign: 'center',
+          mb: 4
         }}>
-          <Button
-            startIcon={<ArrowBackIcon />}
-            onClick={() => navigate(eventId ? `/event/${eventId}` : '/')}
-            variant="contained"
-            sx={{ 
-              bgcolor: 'rgba(255, 255, 255, 0.9)',
-              color: theme.palette.primary.main,
-              '&:hover': {
-                bgcolor: 'white'
-              }
-            }}
-          >
-            Back
-          </Button>
           <Typography 
-            variant="h4" 
+            variant="h2" 
             component="h1"
             sx={{ 
-              color: 'white',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
+              fontFamily: 'Playfair Display, serif',
+              fontWeight: 900,
+              letterSpacing: 2,
+              color: '#EAEFEF',
+              fontSize: { xs: '2rem', md: '3rem' },
+              display: 'inline-block'
             }}
           >
-            Create New Service {eventId && `for Event ${eventId}`}
+            Create New Service
           </Typography>
+          <style>{`
+            @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+          `}</style>
         </Box>
 
         <Paper 
           elevation={3} 
           sx={{ 
             p: 4,
-            borderRadius: 2,
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            width: '100%',
-            mx: 'auto'
+            bgcolor: '#333446',
+            color: '#EAEFEF',
+            borderRadius: 3,
+            boxShadow: '0 4px 24px 0 rgba(51,52,70,0.10)'
           }}
         >
           <form onSubmit={handleSubmit}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                <Typography variant="h5" gutterBottom color="primary" align="center">
+                <Typography 
+                  variant="h3" 
+                  gutterBottom 
+                  align="center"
+                  sx={{
+                    fontFamily: 'Playfair Display, serif',
+                    fontWeight: 700,
+                    color: '#B8CFCE',
+                    fontSize: { xs: '1.5rem', md: '2rem' },
+                    mb: 2
+                  }}
+                >
                   Service Details
                 </Typography>
-                <Divider sx={{ mb: 3 }} />
+                <Divider sx={{ mb: 3, borderColor: '#7F8CAA' }} />
                 <Grid container spacing={3} justifyContent="center">
                   <Grid item xs={12} md={8}>
                     <TextField
@@ -140,8 +163,31 @@ const CreateService = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      variant="outlined"
-                      sx={{ mb: 2 }}
+                      sx={{ 
+                        mb: 2,
+                        '& .MuiOutlinedInput-root': {
+                          bgcolor: 'rgba(184,207,206,0.05)',
+                          borderRadius: 2,
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                          '& fieldset': {
+                            border: 'none',
+                          },
+                          '&:hover': {
+                            bgcolor: 'rgba(184,207,206,0.08)',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                          },
+                          '&.Mui-focused': {
+                            bgcolor: 'rgba(184,207,206,0.1)',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                          },
+                        },
+                        '& .MuiInputLabel-root': {
+                          color: '#B8CFCE',
+                        },
+                        '& .MuiInputBase-input': {
+                          color: '#EAEFEF',
+                        },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} md={8}>
@@ -154,8 +200,31 @@ const CreateService = () => {
                       value={formData.description}
                       onChange={handleChange}
                       required
-                      variant="outlined"
-                      sx={{ mb: 2 }}
+                      sx={{ 
+                        mb: 2,
+                        '& .MuiOutlinedInput-root': {
+                          bgcolor: 'rgba(184,207,206,0.05)',
+                          borderRadius: 2,
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                          '& fieldset': {
+                            border: 'none',
+                          },
+                          '&:hover': {
+                            bgcolor: 'rgba(184,207,206,0.08)',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                          },
+                          '&.Mui-focused': {
+                            bgcolor: 'rgba(184,207,206,0.1)',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                          },
+                        },
+                        '& .MuiInputLabel-root': {
+                          color: '#B8CFCE',
+                        },
+                        '& .MuiInputBase-input': {
+                          color: '#EAEFEF',
+                        },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} md={8}>
@@ -167,8 +236,30 @@ const CreateService = () => {
                       value={formData.price}
                       onChange={handleChange}
                       required
-                      variant="outlined"
-                      sx={{ mb: 2 }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          bgcolor: 'rgba(184,207,206,0.05)',
+                          borderRadius: 2,
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                          '& fieldset': {
+                            border: 'none',
+                          },
+                          '&:hover': {
+                            bgcolor: 'rgba(184,207,206,0.08)',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                          },
+                          '&.Mui-focused': {
+                            bgcolor: 'rgba(184,207,206,0.1)',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                          },
+                        },
+                        '& .MuiInputLabel-root': {
+                          color: '#B8CFCE',
+                        },
+                        '& .MuiInputBase-input': {
+                          color: '#EAEFEF',
+                        },
+                      }}
                     />
                   </Grid>
 
@@ -176,16 +267,34 @@ const CreateService = () => {
               </Grid>
 
               <Grid item xs={12}>
-                <Typography variant="h5" gutterBottom color="primary" align="center">
+                <Typography 
+                  variant="h3" 
+                  gutterBottom 
+                  align="center"
+                  sx={{
+                    fontFamily: 'Playfair Display, serif',
+                    fontWeight: 700,
+                    color: '#B8CFCE',
+                    fontSize: { xs: '1.5rem', md: '2rem' },
+                    mb: 2
+                  }}
+                >
                   Service Image
                 </Typography>
-                <Divider sx={{ mb: 3 }} />
                 <Box sx={{ mb: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Button
                     variant="outlined"
                     component="label"
                     startIcon={<AddPhotoAlternateIcon />}
-                    sx={{ mb: 2 }}
+                    sx={{ 
+                      mb: 2,
+                      borderColor: '#7F8CAA',
+                      color: '#B8CFCE',
+                      '&:hover': {
+                        borderColor: '#B8CFCE',
+                        bgcolor: 'rgba(184,207,206,0.1)',
+                      },
+                    }}
                   >
                     Upload Image
                     <input
@@ -196,27 +305,35 @@ const CreateService = () => {
                     />
                   </Button>
                   {formData.image && (
-                    <Card sx={{ position: 'relative', maxWidth: 300 }}>
+                    <Card sx={{ 
+                      position: 'relative', 
+                      width: 150, 
+                      height: 150,
+                      bgcolor: '#23243a',
+                      border: '1px solid #7F8CAA'
+                    }}>
                       <CardMedia
                         component="img"
                         height="200"
                         image={formData.image.preview}
                         alt="Service Preview"
-                        sx={{ objectFit: 'cover' }}
+                        sx={{ objectFit: 'cover', height: '100%' }}
                       />
                       <IconButton
+                        size="small"
+                        onClick={removeImage}
                         sx={{
                           position: 'absolute',
-                          top: 8,
-                          right: 8,
-                          bgcolor: 'rgba(255, 255, 255, 0.8)',
+                          top: 4,
+                          right: 4,
+                          bgcolor: 'rgba(169,92,104,0.9)',
+                          color: '#EAEFEF',
                           '&:hover': {
-                            bgcolor: 'rgba(255, 255, 255, 0.9)'
+                            bgcolor: '#a95c68',
                           }
                         }}
-                        onClick={removeImage}
                       >
-                        <DeleteIcon color="error" />
+                        <DeleteIcon />
                       </IconButton>
                     </Card>
                   )}
@@ -229,12 +346,21 @@ const CreateService = () => {
                     type="submit"
                     variant="contained"
                     size="large"
-                    sx={{ 
-                      py: 2,
-                      px: 6,
+                    startIcon={<AddIcon />}
+                    sx={{
+                      px: 4,
+                      py: 1.5,
                       fontSize: '1.1rem',
-                      background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.dark} 90%)`,
-                      boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0.2)'
+                      background: '#7F8CAA',
+                      color: '#EAEFEF',
+                      fontWeight: 700,
+                      borderRadius: 2,
+                      boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+                      letterSpacing: 1,
+                      '&:hover': {
+                        background: '#B8CFCE',
+                        color: '#333446',
+                      },
                     }}
                   >
                     Create Service

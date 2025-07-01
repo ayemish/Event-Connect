@@ -66,20 +66,22 @@
   object-fit: cover;
 }
 
-
-
 /* Add Package Button */
 .add-package-btn {
-  background: #3498db;
-  color: black;
+  background: #7F8CAA;
+  color: #EAEFEF;
   border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 4px;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s;
+  font-weight: 700;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 8px 0 rgba(44,62,80,0.10);
+  transition: background 0.2s, color 0.2s;
+  letter-spacing: 1px;
 }
 
 .add-package-btn:hover {
-  background: #2980b9;
+  background: #B8CFCE;
+  color: #333446;
 } 

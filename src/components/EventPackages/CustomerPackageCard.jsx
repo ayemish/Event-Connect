@@ -29,14 +29,21 @@ const CustomerPackageCard = ({ packageData }) => {
     <Card 
       sx={{ 
         cursor: 'pointer',
-        transition: 'transform 0.2s',
+        transition: 'all 0.3s ease',
         '&:hover': {
-          transform: 'scale(1.02)'
+          transform: 'translateY(-4px)',
+          boxShadow: '0 8px 25px rgba(51,52,70,0.3)'
         },
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        width: '100%'
+        width: '100%',
+        bgcolor: '#333446',
+        color: '#EAEFEF',
+        borderRadius: 3,
+        overflow: 'hidden',
+        border: '1px solid #7F8CAA',
+        boxShadow: '0 6px 20px rgba(0,0,0,0.3), 0 0 15px rgba(184,207,206,0.1)'
       }}
       onClick={handleClick}
     >
@@ -59,7 +66,9 @@ const CustomerPackageCard = ({ packageData }) => {
             overflow: 'hidden',
             display: '-webkit-box',
             WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical'
+            WebkitBoxOrient: 'vertical',
+            color: '#EAEFEF',
+            fontWeight: 700
           }}
         >
           {packageData.name}
@@ -68,8 +77,8 @@ const CustomerPackageCard = ({ packageData }) => {
         <Stack spacing={1} sx={{ mb: 1 }}>
           {packageData.vendorName && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <StorefrontIcon sx={{ fontSize: '1rem', color: 'text.secondary' }} />
-              <Typography variant="body2" color="text.secondary">
+              <StorefrontIcon sx={{ fontSize: '1rem', color: '#B8CFCE' }} />
+              <Typography variant="body2" sx={{ color: '#B8CFCE', fontWeight: 600 }}>
                 {packageData.vendorName}
               </Typography>
             </Box>
@@ -77,15 +86,17 @@ const CustomerPackageCard = ({ packageData }) => {
           
           {packageData.category && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <CategoryIcon sx={{ fontSize: '1rem', color: 'text.secondary' }} />
+              <CategoryIcon sx={{ fontSize: '1rem', color: '#B8CFCE' }} />
               <Chip 
                 label={packageData.category}
                 size="small"
                 sx={{ 
-                  backgroundColor: '#e3f2fd',
-                  color: '#1976d2',
+                  backgroundColor: '#7F8CAA',
+                  color: '#EAEFEF',
+                  fontWeight: 600,
                   '&:hover': {
-                    backgroundColor: '#bbdefb'
+                    backgroundColor: '#B8CFCE',
+                    color: '#333446'
                   },
                   height: '24px'
                 }}
@@ -94,24 +105,21 @@ const CustomerPackageCard = ({ packageData }) => {
           )}
 
           {packageData.price && (
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: '#B8CFCE', fontWeight: 600 }}>
               Price: {packageData.price}
             </Typography>
           )}
-
-        
         </Stack>
 
-        <Divider sx={{ my: 1 }} />
+        <Divider sx={{ my: 1, borderColor: '#7F8CAA' }} />
         
         <Box sx={{ flexGrow: 1 }}>
           <Typography 
             variant="body2" 
-            color="text.secondary"
             sx={{
+              color: '#EAEFEF',
               fontSize: '0.9rem',
               lineHeight: 1.4,
-              minHeight: '3rem',
               maxHeight: '6rem',
               overflow: 'hidden',
               display: '-webkit-box',
@@ -129,12 +137,17 @@ const CustomerPackageCard = ({ packageData }) => {
             fullWidth
             onClick={handleConfirmClick}
             sx={{
-              bgcolor: isConfirmed ? '#28a745' : '#2c3e50',
-              '&:hover': {
-                bgcolor: isConfirmed ? '#218838' : '#34495e'
-              },
+              bgcolor: isConfirmed ? '#28a745' : '#7F8CAA',
+              color: isConfirmed ? '#EAEFEF' : '#23243a',
+              fontWeight: 700,
               fontSize: '1rem',
-              py: 1.5
+              py: 1.5,
+              borderRadius: 2,
+              boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+              '&:hover': {
+                bgcolor: isConfirmed ? '#218838' : '#B8CFCE',
+                color: '#23243a'
+              }
             }}
             startIcon={isConfirmed ? <CheckCircleOutlineIcon /> : <EventNoteIcon />}
           >

@@ -3,6 +3,7 @@ import { Box, Typography, Paper, List, ListItem, ListItemText, Divider, Button, 
 import { getCurrentVendor, vendorManager } from '../utils/vendorUtils';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 const ServiceBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -62,7 +63,7 @@ const ServiceBookings = () => {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        bgcolor: '#fff',
+        bgcolor: '#333446',
         p: 3,
         alignItems: 'center',
       }}
@@ -72,21 +73,75 @@ const ServiceBookings = () => {
         onClick={() => navigate('/dashboard')}
         variant="contained"
         sx={{
-          mb: 3,
-          bgcolor: '#2c3e50',
+          position: 'absolute',
+          top: 24,
+          left: 24,
+          bgcolor: '#7F8CAA',
+          color: '#EAEFEF',
+          fontWeight: 700,
+          borderRadius: 2,
+          boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
           '&:hover': {
-            bgcolor: '#34495e'
-          }
+            bgcolor: '#B8CFCE',
+            color: '#333446',
+          },
+          letterSpacing: 1,
+          zIndex: 10
         }}
       >
         Back to Dashboard
       </Button>
+      <Button
+        startIcon={<PaymentsIcon />}
+        onClick={() => navigate('/payments')}
+        variant="contained"
+        sx={{
+          position: 'absolute',
+          top: 24,
+          right: 24,
+          bgcolor: '#B8CFCE',
+          color: '#333446',
+          fontWeight: 700,
+          borderRadius: 2,
+          boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
+          '&:hover': {
+            bgcolor: '#EAEFEF',
+            color: '#23243a',
+          },
+          letterSpacing: 1,
+          zIndex: 10
+        }}
+      >
+        Payments
+      </Button>
 
-      <Typography variant="h4" component="h1" gutterBottom align="center">
-        Service Bookings
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        <Typography
+          variant="h2"
+          align="center"
+          gutterBottom
+          sx={{
+            fontFamily: 'Playfair Display, serif',
+            fontWeight: 900,
+            letterSpacing: 2,
+            color: '#EAEFEF',
+            textShadow: '0 4px 24px #333446',
+            mb: 4,
+            fontSize: { xs: '2.2rem', md: '2.8rem' },
+            px: 2,
+            py: 1,
+            borderRadius: 2,
+            background: 'none',
+          }}
+        >
+          Service Bookings
+        </Typography>
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+        `}</style>
+      </Box>
 
-      <Paper elevation={3} sx={{ p: 3, mx: 'auto', maxWidth: '800px', width: '100%' }}>
+      <Paper elevation={3} sx={{ p: 3, mx: 'auto', maxWidth: '800px', width: '100%', bgcolor: '#23243a', color: '#EAEFEF' }}>
         {loading ? (
           <Typography variant="body1" align="center" sx={{ mt: 2 }}>
             Loading service bookings...
@@ -98,23 +153,24 @@ const ServiceBookings = () => {
         ) : bookings.length > 0 ? (
           <List>
             {bookings.map((booking, index) => (
-              <Card key={booking.eventId + booking.customerId + booking.date} elevation={4} sx={{ borderRadius: 3, p: 2, bgcolor: '#fff', cursor: 'pointer' }}>
+              <Card key={booking.eventId + booking.customerId + booking.date} elevation={4} sx={{ borderRadius: 3, p: 2, bgcolor: '#333446', color: '#EAEFEF', boxShadow: '0 4px 16px 0 rgba(51,52,70,0.10)', cursor: 'pointer' }}>
                 <ListItem alignItems="flex-start">
                   <ListItemText
-                    primary={`Service: ${booking.serviceName}`}
+                    primary={<Typography variant="h6" sx={{ color: '#B8CFCE', fontWeight: 700, letterSpacing: 1 }}>{`Service: ${booking.serviceName}`}</Typography>}
                     secondary={
                       <React.Fragment>
                         <Typography
-                          sx={{ display: 'inline' }}
+                          sx={{ display: 'inline', color: '#EAEFEF' }}
                           component="span"
                           variant="body2"
-                          color="text.primary"
                         >
                           Customer: {booking.customerName}
                         </Typography>
-                        {` — ${booking.serviceDescription}`}
+                        <Typography component="span" variant="body2" sx={{ color: '#B8CFCE', display: 'inline' }}>
+                          {` — ${booking.serviceDescription}`}
+                        </Typography>
                         <br/>
-                        <FormControl size="small" sx={{ mt: 1, minWidth: 120 }}>
+                        <FormControl size="small" sx={{ mt: 1, minWidth: 120, '& .MuiInputBase-root': { color: '#333446', bgcolor: '#EAEFEF' }, '& .MuiInputLabel-root': { color: '#7F8CAA' } }}>
                           <InputLabel>Status</InputLabel>
                           <Select
                             value={booking.status}
@@ -123,8 +179,7 @@ const ServiceBookings = () => {
                               const newStatus = e.target.value;
                               vendorManager.updateConfirmationStatus(
                                 currentVendor.id,
-                                booking.eventId,
-                                booking.customerId,
+                                booking.confirmationId,
                                 newStatus
                               );
                               setBookings(prev => prev.map(b =>
@@ -134,19 +189,20 @@ const ServiceBookings = () => {
                               ));
                             }}
                             onClick={e => e.stopPropagation()}
+                            sx={{ bgcolor: '#EAEFEF', color: '#333446', borderRadius: 1 }}
                           >
-                            <MenuItem value="Pending">Pending</MenuItem>
-                            <MenuItem value="Booked">Booked</MenuItem>
-                            <MenuItem value="Ongoing">Ongoing</MenuItem>
-                            <MenuItem value="Completed">Completed</MenuItem>
+                            <MenuItem value="Pending" sx={{ color: '#333446' }}>Pending</MenuItem>
+                            <MenuItem value="Booked" sx={{ color: '#333446' }}>Booked</MenuItem>
+                            <MenuItem value="Ongoing" sx={{ color: '#333446' }}>Ongoing</MenuItem>
+                            <MenuItem value="Completed" sx={{ color: '#333446' }}>Completed</MenuItem>
                           </Select>
                         </FormControl>
                         <br/>
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography variant="caption" sx={{ color: '#B8CFCE' }}>
                           Confirmed on: {new Date(booking.timestamp).toLocaleString()}
                         </Typography>
                         {booking.date && (
-                          <Typography variant="caption" color="text.secondary" sx={{ ml: 2 }}>
+                          <Typography variant="caption" sx={{ ml: 2, color: '#B8CFCE' }}>
                             Service Date: {booking.date}
                           </Typography>
                         )}
@@ -154,7 +210,7 @@ const ServiceBookings = () => {
                     }
                   />
                 </ListItem>
-                {index < bookings.length - 1 && <Divider component="li" />}
+                {index < bookings.length - 1 && <Divider component="li" sx={{ bgcolor: '#7F8CAA', opacity: 0.4 }} />}
               </Card>
             ))}
           </List>

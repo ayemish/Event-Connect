@@ -19,14 +19,21 @@ const ServiceCard = ({ eventId, service }) => {
       sx={{ 
         maxWidth: 345, 
         cursor: 'pointer',
-        transition: 'transform 0.2s',
+        transition: 'all 0.3s ease',
         '&:hover': {
-          transform: 'scale(1.02)'
+          transform: 'translateY(-4px)',
+          boxShadow: '0 8px 25px rgba(51,52,70,0.3)'
         },
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        height: '100%'
+        height: '100%',
+        bgcolor: '#333446',
+        color: '#EAEFEF',
+        borderRadius: 3,
+        overflow: 'hidden',
+        border: '1px solid #7F8CAA',
+        boxShadow: '0 6px 20px rgba(0,0,0,0.3), 0 0 15px rgba(184,207,206,0.1)'
       }}
       onClick={handleCardClick}
     >
@@ -38,16 +45,31 @@ const ServiceCard = ({ eventId, service }) => {
         sx={{ objectFit: 'cover' }}
       />
       <Box sx={{ p: 2, flexGrow: 1 }}>
-        <Typography variant="h6" component="div" gutterBottom>
+        <Typography 
+          variant="h6" 
+          component="div" 
+          gutterBottom
+          sx={{
+            color: '#EAEFEF',
+            fontWeight: 700,
+            fontSize: '1.1rem',
+            mb: 1
+          }}
+        >
           {service.name}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Price: {service.price}
+        <Typography 
+          variant="body2" 
+          sx={{
+            color: '#B8CFCE',
+            fontWeight: 600,
+            fontSize: '0.95rem'
+          }}
+        >
+          Price: Rs {service.price}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-          <Typography variant="body2" color="text.secondary">
-            Status: <span style={{ color: service.status === 'active' ? theme.palette.success.main : theme.palette.error.main }}>{service.status}</span>
-          </Typography>
+         
         </Box>
       </Box>
     </Card>

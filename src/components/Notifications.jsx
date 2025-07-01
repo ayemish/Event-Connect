@@ -37,19 +37,21 @@ const Notifications = () => {
 
         console.log('Fetching notifications for vendor:', currentVendor.id);
         const vendorConfirmations = vendorManager.getVendorConfirmations(currentVendor.id);
+        // Exclude service-only bookings
+        const filteredConfirmations = vendorConfirmations.filter(conf => !conf.eventId.startsWith('SERVICE_ONLY_'));
         setDebugConfirmations(vendorConfirmations); // For debug panel
         console.log('Vendor confirmations:', vendorConfirmations);
 
         const vendorEvents = vendorManager.getVendorContent(currentVendor.id)?.events || [];
         console.log('Vendor events:', vendorEvents);
 
-        if (!vendorConfirmations || vendorConfirmations.length === 0) {
-          console.log('No confirmations found');
+        if (!filteredConfirmations || filteredConfirmations.length === 0) {
+          console.log('No event confirmations found');
           setNotifications([]);
           return;
         }
 
-        const detailedNotifications = vendorConfirmations.map((conf) => {
+        const detailedNotifications = filteredConfirmations.map((conf) => {
           try {
             const event = vendorEvents.find(e => e.id === conf.eventId);
             let status = conf.status || 'Booked'; // Default to Booked if not set
@@ -112,9 +114,10 @@ const Notifications = () => {
     <Box
       sx={{
         minHeight: '100vh',
+        height: 'auto',
         display: 'flex',
         flexDirection: 'column',
-        bgcolor: '#fff',
+        bgcolor: '#333446',
         p: 3,
         alignItems: 'center',
       }}
@@ -124,21 +127,46 @@ const Notifications = () => {
         onClick={() => navigate('/dashboard')}
         variant="contained"
         sx={{
-          mb: 3,
+          position: 'absolute',
+          top: 24,
+          left: 24,
           bgcolor: '#2c3e50',
           '&:hover': {
             bgcolor: '#34495e'
-          }
+          },
+          zIndex: 10
         }}
       >
         Back to Dashboard
       </Button>
 
-      <Typography variant="h4" component="h1" gutterBottom align="center">
-        Event Bookings
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        <Typography
+          variant="h2"
+          component="h1"
+          gutterBottom
+          sx={{
+            fontFamily: 'Playfair Display, serif',
+            fontWeight: 900,
+            letterSpacing: 2,
+            color: '#EAEFEF',
+            textShadow: '0 4px 24px #333446',
+            mb: 4,
+            fontSize: { xs: '2.2rem', md: '2.8rem' },
+            px: 2,
+            py: 1,
+            borderRadius: 2,
+            background: 'none',
+          }}
+        >
+          Event Bookings
+        </Typography>
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+        `}</style>
+      </Box>
 
-      <Paper elevation={3} sx={{ p: 3, mx: 'auto', maxWidth: '800px', width: '100%' }}>
+      <Paper elevation={3} sx={{ p: 3, mx: 'auto', maxWidth: '800px', width: '100%', bgcolor: '#23243a' }}>
         {loading ? (
           <Typography variant="body1" align="center" sx={{ mt: 2 }}>
             Loading notifications...
@@ -150,25 +178,46 @@ const Notifications = () => {
         ) : notifications.length > 0 ? (
           <List>
             {notifications.map((notification, index) => (
-              <Card key={notification.confirmationId} elevation={4} sx={{ borderRadius: 3, p: 2, bgcolor: '#fff', cursor: 'pointer' }}
+              <Card
+                key={notification.confirmationId}
+                elevation={4}
+                sx={{
+                  borderRadius: 3,
+                  p: 2,
+                  bgcolor: '#333446',
+                  color: '#EAEFEF',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 16px 0 rgba(51,52,70,0.10)',
+                  mb: 2,
+                  transition: 'transform 0.15s',
+                  '&:hover': {
+                    transform: 'scale(1.02)',
+                    boxShadow: '0 8px 24px 0 rgba(51,52,70,0.18)',
+                  },
+                }}
                 onClick={() => navigate(`/event-confirmation/${notification.eventId}/${notification.customerId}/${notification.date}`)}
               >
-                <ListItem alignItems="flex-start">
+                <ListItem alignItems="flex-start" sx={{ color: '#EAEFEF' }}>
                   <ListItemText
-                    primary={`Event: ${notification.eventName}`}
+                    primary={
+                      <Typography variant="h6" sx={{ color: '#B8CFCE', fontWeight: 700 }}>
+                        {`Event: ${notification.eventName}`}
+                      </Typography>
+                    }
                     secondary={
                       <React.Fragment>
                         <Typography
-                          sx={{ display: 'inline' }}
+                          sx={{ display: 'inline', color: '#EAEFEF' }}
                           component="span"
                           variant="body2"
-                          color="text.primary"
                         >
                           Customer: {notification.customerName}
                         </Typography>
-                        {` — ${notification.eventDescription}`}
+                        <Typography component="span" variant="body2" sx={{ color: '#B8CFCE', display: 'inline' }}>
+                          {` — ${notification.eventDescription}`}
+                        </Typography>
                         <br/>
-                        <FormControl size="small" sx={{ mt: 1, minWidth: 120 }}>
+                        <FormControl size="small" sx={{ mt: 1, minWidth: 120, '& .MuiInputBase-root': { color: '#333446', bgcolor: '#EAEFEF' }, '& .MuiInputLabel-root': { color: '#7F8CAA' } }}>
                           <InputLabel>Status</InputLabel>
                           <Select
                             value={typeof notification.status === 'string' ? notification.status : 'Booked'}
@@ -187,19 +236,20 @@ const Notifications = () => {
                               ));
                             }}
                             onClick={e => e.stopPropagation()}
+                            sx={{ bgcolor: '#EAEFEF', color: '#333446', borderRadius: 1 }}
                           >
-                            <MenuItem value="Pending">Pending</MenuItem>
-                            <MenuItem value="Booked">Booked</MenuItem>
-                            <MenuItem value="Ongoing">Ongoing</MenuItem>
-                            <MenuItem value="Completed">Completed</MenuItem>
+                            <MenuItem value="Pending" sx={{ color: '#333446' }}>Pending</MenuItem>
+                            <MenuItem value="Booked" sx={{ color: '#333446' }}>Booked</MenuItem>
+                            <MenuItem value="Ongoing" sx={{ color: '#333446' }}>Ongoing</MenuItem>
+                            <MenuItem value="Completed" sx={{ color: '#333446' }}>Completed</MenuItem>
                           </Select>
                         </FormControl>
                         <br/>
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography variant="caption" sx={{ color: '#B8CFCE' }}>
                           Confirmed on: {new Date(notification.timestamp).toLocaleString()}
                         </Typography>
                         {notification.date && (
-                          <Typography variant="caption" color="text.secondary" sx={{ ml: 2 }}>
+                          <Typography variant="caption" sx={{ ml: 2, color: '#B8CFCE' }}>
                             Event Date: {notification.date}
                           </Typography>
                         )}
@@ -207,7 +257,7 @@ const Notifications = () => {
                           <Button
                             variant="outlined"
                             size="small"
-                            sx={{ mt: 1, ml: 1 }}
+                            sx={{ mt: 1, ml: 1, borderColor: '#B8CFCE', color: '#B8CFCE', '&:hover': { borderColor: '#7F8CAA', color: '#7F8CAA', background: '#EAEFEF' } }}
                             onClick={e => {
                               e.stopPropagation();
                               setSelectedFeedback({
@@ -224,7 +274,7 @@ const Notifications = () => {
                     }
                   />
                 </ListItem>
-                {index < notifications.length - 1 && <Divider component="li" />}
+                {index < notifications.length - 1 && <Divider component="li" sx={{ bgcolor: '#7F8CAA', opacity: 0.4 }} />}
               </Card>
             ))}
           </List>
@@ -273,4 +323,4 @@ const Notifications = () => {
   );
 };
 
-export default Notifications; 
+export default Notifications;

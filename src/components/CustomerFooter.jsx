@@ -9,7 +9,7 @@ const CustomerFooter = () => {
         py: 2,
         px: 3,
         mt: 'auto', // Pushes the footer to the bottom
-        bgcolor: '#1976d2',
+        bgcolor: '#23243a',
         color: 'white',
         textAlign: 'center',
       }}

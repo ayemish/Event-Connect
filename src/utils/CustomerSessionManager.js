@@ -37,7 +37,10 @@ class CustomerSessionManager {
         allCustomers[customerId] = {
             id: customerId,
             name: customerData.name,
+            firstName: customerData.firstName,
+            lastName: customerData.lastName,
             email: customerData.email,
+            phoneNumber: customerData.phoneNumber,
             password: customerData.password,
             createdAt: customerData.createdAt
         };

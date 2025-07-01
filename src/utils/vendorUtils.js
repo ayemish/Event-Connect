@@ -73,7 +73,7 @@ class VendorContentManager {
     }
 
     // Add a confirmation for an event by a customer
-    addEventConfirmation(vendorId, eventId, customerId = 'anonymous_customer', customerName = 'Anonymous Customer', date = '', invitees = '', selectedServices = []) {
+    addEventConfirmation(vendorId, eventId, customerId = 'anonymous_customer', customerName = 'Anonymous Customer', date = '', invitees = '', selectedServices = [], customizationInfo = {}) {
         console.log('VendorContentManager: Attempting to add confirmation for vendor', vendorId, 'event', eventId, 'customer', customerId, 'name', customerName, 'date', date, 'invitees', invitees, 'selectedServices', selectedServices);
         const allData = this.getAllData();
         if (!allData[vendorId]) {
@@ -95,6 +95,10 @@ class VendorContentManager {
             invitees,
             selectedServices,
             timestamp: new Date().toISOString(),
+            paymentStatus: 'Pending', // Default to pending
+            paymentTimestamp: null,
+            status: 'Pending', // Default event status
+            ...customizationInfo
         };
         allData[vendorId].confirmations.push(newConfirmation);
         console.log('VendorContentManager: Added new event confirmation:', newConfirmation, 'for vendor:', vendorId);
@@ -149,6 +153,31 @@ class VendorContentManager {
             return true;
         }
         return false;
+    }
+
+    // Update payment status for a confirmation
+    updatePaymentStatus(vendorId, confirmationId, status = 'Clear') {
+        const allData = this.getAllData();
+        if (!allData[vendorId] || !allData[vendorId].confirmations) return false;
+        const confIndex = allData[vendorId].confirmations.findIndex(
+            conf => conf.confirmationId === confirmationId
+        );
+        if (confIndex !== -1) {
+            allData[vendorId].confirmations[confIndex].paymentStatus = status;
+            allData[vendorId].confirmations[confIndex].paymentTimestamp = status === 'Clear' ? new Date().toISOString() : null;
+            this.saveAllData(allData);
+            return true;
+        }
+        return false;
+    }
+
+    // Get all payments for a vendor (events and services)
+    getVendorPayments(vendorId) {
+        const allData = this.getAllData();
+        if (!allData[vendorId] || !allData[vendorId].confirmations) return [];
+        return allData[vendorId].confirmations.map(conf => ({
+            ...conf
+        }));
     }
 }
 

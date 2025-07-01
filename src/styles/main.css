@@ -11,3 +11,9 @@
   display: flex;
   flex-direction: column;
 }
+
+html, body, #root {
+  min-height: 100vh !important;
+  height: auto !important;
+  background: #333446 !important;
+}
