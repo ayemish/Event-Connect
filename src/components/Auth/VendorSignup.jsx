@@ -8,7 +8,8 @@ import {
   TextField,
   Button,
   Link as MuiLink,
-  Alert
+  Alert,
+  Grid
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -18,7 +19,8 @@ const VendorSignup = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: '',
+    firstName: '',
+    lastName: '',
     businessName: '',
     email: '',
     phone: '',
@@ -57,7 +59,8 @@ const VendorSignup = () => {
     // Create new vendor object (profile data)
     const newVendorProfile = {
       id: Date.now().toString(), // Simple unique ID for the vendor
-      fullName: formData.fullName,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       businessName: formData.businessName,
       email: formData.email,
       phone: formData.phone,
@@ -83,15 +86,17 @@ const VendorSignup = () => {
     <Box
       sx={{
         minHeight: '100vh',
+        bgcolor: '#23243a',
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
         justifyContent: 'center',
-        bgcolor: '#333446',
+        alignItems: 'center',
         py: 4
       }}
     >
       <Container maxWidth="sm">
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+        `}</style>
         <Button
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/')}
@@ -113,198 +118,209 @@ const VendorSignup = () => {
           Back to Landing Page
         </Button>
         <Paper
-          elevation={6}
+          elevation={3}
           sx={{
             p: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            bgcolor: 'rgba(35,36,58,0.98)',
+            bgcolor: '#333446',
             color: '#EAEFEF',
             borderRadius: 3,
-            boxShadow: '0 8px 32px rgba(51,52,70,0.25)',
-            backdropFilter: 'blur(8px)'
+            boxShadow: '0 4px 24px 0 rgba(51,52,70,0.10)'
           }}
         >
-          <Typography
-            component="h1"
-            variant="h4"
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
             sx={{
-              mb: 3,
-              fontFamily: 'Playfair Display, serif',
-              fontWeight: 900,
-              color: '#EAEFEF',
-              letterSpacing: 1
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
-            Vendor Sign Up
-          </Typography>
-          
-          {error && (
-            <Alert severity="error" sx={{ width: '100%', mb: 2 }}>
-              {error}
-            </Alert>
-          )}
-
-          <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="fullName"
-              label="Full Name"
-              name="fullName"
-              autoComplete="name"
-              autoFocus
-              value={formData.fullName}
-              onChange={handleChange}
-              sx={{ mb: 2,
-                '& .MuiOutlinedInput-root': {
-                  bgcolor: '#23243a',
-                  color: '#EAEFEF',
-                  borderRadius: 2,
-                  '& fieldset': { borderColor: '#7F8CAA' },
-                  '&:hover fieldset': { borderColor: '#B8CFCE' },
-                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
-                  '& input': { color: '#EAEFEF' }
-                },
-                '& .MuiInputLabel-root': { color: '#B8CFCE' }
+            <Typography
+              variant="h2"
+              component="h1"
+              sx={{
+                fontFamily: 'Playfair Display, serif',
+                fontWeight: 900,
+                letterSpacing: 1,
+                color: '#EAEFEF',
+                fontSize: { xs: '1.8rem', md: '2.2rem' },
+                mb: 3,
+                textAlign: 'center'
               }}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="businessName"
-              label="Business Name"
-              name="businessName"
-              value={formData.businessName}
-              onChange={handleChange}
-              sx={{ mb: 2,
-                '& .MuiOutlinedInput-root': {
-                  bgcolor: '#23243a',
-                  color: '#EAEFEF',
-                  borderRadius: 2,
-                  '& fieldset': { borderColor: '#7F8CAA' },
-                  '&:hover fieldset': { borderColor: '#B8CFCE' },
-                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
-                  '& input': { color: '#EAEFEF' }
-                },
-                '& .MuiInputLabel-root': { color: '#B8CFCE' }
-              }}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={formData.email}
-              onChange={handleChange}
-              sx={{ mb: 2,
-                '& .MuiOutlinedInput-root': {
-                  bgcolor: '#23243a',
-                  color: '#EAEFEF',
-                  borderRadius: 2,
-                  '& fieldset': { borderColor: '#7F8CAA' },
-                  '&:hover fieldset': { borderColor: '#B8CFCE' },
-                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
-                  '& input': { color: '#EAEFEF' }
-                },
-                '& .MuiInputLabel-root': { color: '#B8CFCE' }
-              }}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="phone"
-              label="Phone Number"
-              name="phone"
-              autoComplete="tel"
-              value={formData.phone}
-              onChange={handleChange}
-              sx={{ mb: 2,
-                '& .MuiOutlinedInput-root': {
-                  bgcolor: '#23243a',
-                  color: '#EAEFEF',
-                  borderRadius: 2,
-                  '& fieldset': { borderColor: '#7F8CAA' },
-                  '&:hover fieldset': { borderColor: '#B8CFCE' },
-                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
-                  '& input': { color: '#EAEFEF' }
-                },
-                '& .MuiInputLabel-root': { color: '#B8CFCE' }
-              }}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              value={formData.password}
-              onChange={handleChange}
-              sx={{ mb: 2,
-                '& .MuiOutlinedInput-root': {
-                  bgcolor: '#23243a',
-                  color: '#EAEFEF',
-                  borderRadius: 2,
-                  '& fieldset': { borderColor: '#7F8CAA' },
-                  '&:hover fieldset': { borderColor: '#B8CFCE' },
-                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
-                  '& input': { color: '#EAEFEF' }
-                },
-                '& .MuiInputLabel-root': { color: '#B8CFCE' }
-              }}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              id="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              sx={{ mb: 3,
-                '& .MuiOutlinedInput-root': {
-                  bgcolor: '#23243a',
-                  color: '#EAEFEF',
-                  borderRadius: 2,
-                  '& fieldset': { borderColor: '#7F8CAA' },
-                  '&:hover fieldset': { borderColor: '#B8CFCE' },
-                  '&.Mui-focused fieldset': { borderColor: '#B8CFCE' },
-                  '& input': { color: '#EAEFEF' }
-                },
-                '& .MuiInputLabel-root': { color: '#B8CFCE' }
-              }}
-            />
+            >
+              Vendor Sign Up
+            </Typography>
+            {error && (
+              <Alert severity="error" sx={{ width: '100%', mb: 2, bgcolor: 'rgba(169,92,104,0.3)', color: '#EAEFEF' }}>
+                {error}
+              </Alert>
+            )}
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="First Name"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: 'rgba(184,207,206,0.05)',
+                      borderRadius: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      '& fieldset': { border: 'none' },
+                      '&:hover': { bgcolor: 'rgba(184,207,206,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' },
+                      '&.Mui-focused': { bgcolor: 'rgba(184,207,206,0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' },
+                    },
+                    '& .MuiInputLabel-root': { color: '#B8CFCE' },
+                    '& .MuiInputBase-input': { color: '#EAEFEF' },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Last Name"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: 'rgba(184,207,206,0.05)',
+                      borderRadius: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      '& fieldset': { border: 'none' },
+                      '&:hover': { bgcolor: 'rgba(184,207,206,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' },
+                      '&.Mui-focused': { bgcolor: 'rgba(184,207,206,0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' },
+                    },
+                    '& .MuiInputLabel-root': { color: '#B8CFCE' },
+                    '& .MuiInputBase-input': { color: '#EAEFEF' },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Business Name"
+                  name="businessName"
+                  value={formData.businessName}
+                  onChange={handleChange}
+                  required
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: 'rgba(184,207,206,0.05)',
+                      borderRadius: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      '& fieldset': { border: 'none' },
+                      '&:hover': { bgcolor: 'rgba(184,207,206,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' },
+                      '&.Mui-focused': { bgcolor: 'rgba(184,207,206,0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' },
+                    },
+                    '& .MuiInputLabel-root': { color: '#B8CFCE' },
+                    '& .MuiInputBase-input': { color: '#EAEFEF' },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: 'rgba(184,207,206,0.05)',
+                      borderRadius: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      '& fieldset': { border: 'none' },
+                      '&:hover': { bgcolor: 'rgba(184,207,206,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' },
+                      '&.Mui-focused': { bgcolor: 'rgba(184,207,206,0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' },
+                    },
+                    '& .MuiInputLabel-root': { color: '#B8CFCE' },
+                    '& .MuiInputBase-input': { color: '#EAEFEF' },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Phone Number"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: 'rgba(184,207,206,0.05)',
+                      borderRadius: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      '& fieldset': { border: 'none' },
+                      '&:hover': { bgcolor: 'rgba(184,207,206,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' },
+                      '&.Mui-focused': { bgcolor: 'rgba(184,207,206,0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' },
+                    },
+                    '& .MuiInputLabel-root': { color: '#B8CFCE' },
+                    '& .MuiInputBase-input': { color: '#EAEFEF' },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Password"
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: 'rgba(184,207,206,0.05)',
+                      borderRadius: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      '& fieldset': { border: 'none' },
+                      '&:hover': { bgcolor: 'rgba(184,207,206,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' },
+                      '&.Mui-focused': { bgcolor: 'rgba(184,207,206,0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' },
+                    },
+                    '& .MuiInputLabel-root': { color: '#B8CFCE' },
+                    '& .MuiInputBase-input': { color: '#EAEFEF' },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: 'rgba(184,207,206,0.05)',
+                      borderRadius: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      '& fieldset': { border: 'none' },
+                      '&:hover': { bgcolor: 'rgba(184,207,206,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' },
+                      '&.Mui-focused': { bgcolor: 'rgba(184,207,206,0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' },
+                    },
+                    '& .MuiInputLabel-root': { color: '#B8CFCE' },
+                    '& .MuiInputBase-input': { color: '#EAEFEF' },
+                  }}
+                />
+              </Grid>
+            </Grid>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{
-                py: 1.5,
-                fontSize: '1.1rem',
-                bgcolor: '#B8CFCE',
-                color: '#333446',
-                fontWeight: 700,
-                borderRadius: 2,
-                boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
-                letterSpacing: 1,
-                '&:hover': {
-                  bgcolor: '#EAEFEF',
-                  color: '#23243a'
-                }
-              }}
+              sx={{ mt: 2, mb: 2, fontWeight: 700, fontSize: '1.2rem', borderRadius: 2 }}
             >
-              Sign Up
+              SIGN UP
             </Button>
             <Box sx={{ mt: 2, textAlign: 'center' }}>
               <Typography variant="body2" sx={{ color: '#B8CFCE', fontWeight: 500 }}>

@@ -68,26 +68,7 @@ const SendInvitations = () => {
         alignItems: 'center',
       }}
     >
-      <Button
-        startIcon={<ArrowBackIcon />}
-        onClick={() => navigate('/dashboard')}
-        variant="contained"
-        sx={{
-          mb: 3,
-          bgcolor: '#7F8CAA',
-          color: '#EAEFEF',
-          fontWeight: 700,
-          borderRadius: 2,
-          boxShadow: '0 2px 8px 0 rgba(44,62,80,0.10)',
-          '&:hover': {
-            bgcolor: '#B8CFCE',
-            color: '#333446',
-          },
-          letterSpacing: 1
-        }}
-      >
-        Back to Dashboard
-      </Button>
+
       <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
         <Typography
           variant="h2"
